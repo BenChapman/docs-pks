@@ -57,6 +57,8 @@ To create a load balancer using GCP, perform the following steps:
 
 ### <a id='firewall-rule'></a> Create a Firewall Rule for the Load Balancer
 
+To create a firewall rule that allows traffic between the load balancer and the PKS API VM, do the following:
+
 1. From the GCP console, navigate to **VPC Network > Firewall rules** and click **CREATE FIREWALL RULE**.
 
 1.  Configure the following:
@@ -73,6 +75,17 @@ To create a load balancer using GCP, perform the following steps:
    * Under **Protocols and ports**, select **Specified protocols and ports** and enter `tcp:8443,9021`.
 
 1. Click **Create**.
+
+### <a id='tag'></a> Create a Network Tag for the Firewall Rule
+
+To apply the firewall rule to the VM that hosts the PKS API, the VM must have the `pks-api` tag in GCP. Do the following:
+
+1. From the GCP console, navigate to **Compute Engine** > **VM instances**.
+1. Locate the your PKS control plane VM.
+1. Click the name of the VM to open the **VM instance details** menu.
+1. Click **Edit**.
+1. Verify that the **Network tags** field contains the `pks-api` tag. If the tag does not appear in the field, enter it now.
+1. Scroll to the bottom of the screen and click **Save**.
 
 ### <a id='wildcard-dns-entry'></a> Create a Wildcard DNS Entry for the Load Balancer
 
@@ -158,7 +171,7 @@ To activate a plan, do the following:
 1. Under **Description**, edit the description as needed.
 The plan description appears in the Services Marketplace, which developers can access by using PKS CLI.
 1. Under **AZ placement**, select an AZ for the Kubernetes clusters deployed by PKS.
-1. Under **Default Cluster Authorization Mode**, select an authentication mode for the Kubernetes clusters. Pivotal recommends selecting **RBAC**. For more information, see the [RBAC Support in Kubernetes](https://kubernetes.io/blog/2017/04/rbac-support-in-kubernetes) blog post.
+1. Under **Default Cluster Authorization Mode**, select an authentication mode for the Kubernetes clusters. Pivotal recommends selecting **RBAC**. For more information, see [Authorization Overview](https://kubernetes.io/docs/reference/access-authn-authz/authorization) in the Kubernetes documentation.
 1. Under **ETCD/Master VM Type**, select the type of VM to use for Kubernetes etcd and master nodes.
 1. Under **Master Persistent Disk Type**, select the size of the persistent disk for the Kubernetes master VM.
 1. Under **Worker VM Type**, select the type of VM to use for Kubernetes worker nodes.
